@@ -35,6 +35,7 @@ public class LoginPage {
 
     //metode
 
+
     public void inputUsername(String username){
         getUsernameField().clear();
         getUsernameField().sendKeys(username);
