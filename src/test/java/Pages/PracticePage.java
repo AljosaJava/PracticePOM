@@ -17,7 +17,7 @@ public class PracticePage {
         return driver.findElement(By.linkText("Test Login Page"));
     }
 
-    public void clickonTestLoginPage(){
+    public void clickOnTestLoginPage(){
         getGoToLoginPage().click();
     }
 }

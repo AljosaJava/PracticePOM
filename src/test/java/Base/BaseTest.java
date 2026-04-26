@@ -1,5 +1,7 @@
 package Base;
 
+import Pages.LoggedOutPage;
+import Pages.LoginPage;
 import Pages.PracticePage;
 import Pages.SidebarPage;
 import org.openqa.selenium.WebDriver;
@@ -16,18 +18,16 @@ public class BaseTest {
     public WebDriverWait wait;
     public SidebarPage sidebarPage;
     public PracticePage practicePage;
-
+    public LoginPage loginPage;
+    public LoggedOutPage loggedOutPage;
 
  @BeforeClass
  public void setUp() {
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        sidebarPage = new SidebarPage(driver);
-        practicePage = new PracticePage(driver);
+
  }
 
  @AfterClass
  public void tearDown()  {
-     //driver.quit();
+    driver.quit();
  }
 }
