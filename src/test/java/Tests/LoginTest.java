@@ -18,12 +18,6 @@ public class LoginTest extends BaseTest { //znaci driver je vidljiv
 
     @BeforeMethod
     public void pageSetUp() {
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        sidebarPage = new SidebarPage(driver);
-        practicePage = new PracticePage(driver);
-        loginPage = new LoginPage(driver);
-        loggedOutPage = new LoggedOutPage(driver);
         driver.manage().window().maximize();
         driver.get("https://practicetestautomation.com/");
     }
@@ -74,5 +68,17 @@ public class LoginTest extends BaseTest { //znaci driver je vidljiv
         Assert.assertTrue(loginPage.getError().getText().contains("Your password is invalid!"));
     }
 
+
+
+    @Test(priority = 50)
+    public void test() { //da ne postoji submit button
+        sidebarPage.clickOnPracticeButton();
+        practicePage.clickOnTestLoginPage();
+        loginPage.inputUsername("student");
+        loginPage.inputPassword("Password123");
+        loginPage.clickOnSubmitButton();
+        wait.until(ExpectedConditions.visibilityOf(loggedOutPage.getLogOutButton()));
+        Assert.assertFalse(elementIsPresent(loginPage.getSubmitButton()));
+    }
 
 }
