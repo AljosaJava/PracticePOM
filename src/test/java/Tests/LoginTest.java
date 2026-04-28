@@ -19,15 +19,19 @@ public class LoginTest extends BaseTest { //znaci driver je vidljiv
     @BeforeMethod
     public void pageSetUp() {
         driver.manage().window().maximize();
-        driver.get("https://practicetestautomation.com/");
+        driver.get(excelReader.getStringData("URL", 0, 0));
     }
 
     @Test(priority = 10)
     public void userCanLogin() {
         sidebarPage.clickOnPracticeButton();
         practicePage.clickOnTestLoginPage();
-        loginPage.inputUsername("student");
-        loginPage.inputPassword("Password123");
+
+        String validUsername = excelReader.getStringData("Login", 1, 0);
+        String validPassword = excelReader.getStringData("Login", 1, 1);
+
+        loginPage.inputUsername(validUsername);
+        loginPage.inputPassword(validPassword);
         loginPage.clickOnSubmitButton();
 
         Assert.assertTrue(loggedOutPage.getMessage().isDisplayed()); //da li prikazuje poruku
@@ -68,6 +72,25 @@ public class LoginTest extends BaseTest { //znaci driver je vidljiv
         Assert.assertTrue(loginPage.getError().getText().contains("Your password is invalid!"));
     }
 
+    @Test
+    public void userCannotLoginWithInvalidUsernameAndInvalidPassword() {
+
+        sidebarPage.clickOnPracticeButton();
+        practicePage.clickOnTestLoginPage();
+
+        for (int i=1; i<=excelReader.getLastRow("Login"); i++) {
+
+            String invalidUsername = excelReader.getStringData("Login", i, 2);
+            String invalidPassword = excelReader.getStringData("Login", i, 3);
+
+            loginPage.inputUsername(invalidUsername);
+            loginPage.inputPassword(invalidPassword);
+            loginPage.clickOnSubmitButton();
+            wait.until(ExpectedConditions.visibilityOf(loginPage.getError()));
+            Assert.assertTrue(loginPage.getError().isDisplayed());
+        }
+    }
+
 
 
     @Test(priority = 50)
@@ -80,5 +103,6 @@ public class LoginTest extends BaseTest { //znaci driver je vidljiv
         wait.until(ExpectedConditions.visibilityOf(loggedOutPage.getLogOutButton()));
         Assert.assertFalse(elementIsPresent(loginPage.getSubmitButton()));
     }
+
 
 }

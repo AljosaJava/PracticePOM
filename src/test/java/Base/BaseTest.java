@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import java.io.IOException;
 import java.time.Duration;
 
 public class BaseTest {
@@ -21,15 +22,18 @@ public class BaseTest {
     public PracticePage practicePage;
     public LoginPage loginPage;
     public LoggedOutPage loggedOutPage;
+    public ExcelReader excelReader;
 
  @BeforeClass
- public void setUp() {
+ public void setUp() throws IOException {
      driver = new ChromeDriver();
      wait = new WebDriverWait(driver, Duration.ofSeconds(10));
      sidebarPage = new SidebarPage(driver);
      practicePage = new PracticePage(driver);
      loginPage = new LoginPage(driver);
      loggedOutPage = new LoggedOutPage(driver);
+     //excelReader = new ExcelReader("C:\\Users\\mudri\\OneDrive\\Desktop\\TestData.xlsx");
+     excelReader = new ExcelReader("TestData.xlsx");
  }
 
 //da pokaze da element nije prisutan
